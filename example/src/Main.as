@@ -5,28 +5,37 @@ package
 	
 	import org.robotcomps.RobotComps;
 	import org.robotcomps.controls.BorderBox;
-	import org.robotcomps.core.display.DisplayType;
+	import org.robotcomps.core.display.data.RenderMode;
+	import org.robotcomps.dialogs.DialogManager;
 	
 	import starling.core.Starling;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
-	[SWF(width="700", height="500", frameRate="60", backgroundColor="#000000")]
+	[SWF(width="1280", height="720", frameRate="60", backgroundColor="#f2f2f2")]
 	public class Main extends flash.display.Sprite
 	{
-		private var _starling:Starling;
+		public static var _starling:Starling;
 		protected var sink:KitchenSink;
 		
 		public function Main(){
 			
-			RobotComps.init(stage, DisplayType.STARLING);
+			var renderMode:String = RenderMode.NATIVE;
+			renderMode = RenderMode.STARLING;
 			
-			if(RobotComps.renderMode == DisplayType.NATIVE){
-				sink = new KitchenSink(this);
-			} else {
+			if(renderMode == RenderMode.NATIVE){
+				//Init Normal Mode
+				RobotComps.init(stage, this, renderMode);
+				sink = new KitchenSink(this, stage);
+			} 
+			else {
 				_starling = new Starling(starling.display.Sprite, stage);
-				_starling.addEventListener(Event.ROOT_CREATED, function(){
-					sink = new KitchenSink(Starling.current.root);
+				_starling.addEventListener(Event.ROOT_CREATED, function():void {
+					
+					//Init starling mode
+					RobotComps.init(stage, Starling.current.root, renderMode);
+					sink = new KitchenSink(Starling.current.root, stage);
+					
 				})
 				_starling.start();
 			}
