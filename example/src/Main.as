@@ -2,6 +2,8 @@ package
 {
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import flash.display.StageAlign;
+	import flash.display.StageScaleMode;
 	
 	import org.robotcomps.RobotComps;
 	import org.robotcomps.controls.BorderBox;
@@ -19,6 +21,9 @@ package
 		protected var sink:KitchenSink;
 		
 		public function Main(){
+			
+			stage.align = StageAlign.TOP_LEFT;
+			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
 			var renderMode:String = RenderMode.NATIVE;
 			renderMode = RenderMode.STARLING;

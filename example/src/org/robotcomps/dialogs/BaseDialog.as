@@ -64,7 +64,7 @@ package org.robotcomps.dialogs
 			buttonList = [];
 			var button:SimpleButton;
 			for(var i:int = 0, l:int = value.length; i < l; i++){
-				button = new SimpleButton("", null, Display.BG_LIGHT);
+				button = new SimpleButton("", null, Display.DIVIDER);
 				button.label = value[i];
 				button.mouseClicked.add(onButtonClicked);
 				buttonContainer._addChild(button.display);
@@ -100,8 +100,8 @@ package org.robotcomps.dialogs
 			
 		}
 		
-		protected function onButtonClicked(target:Object):void {
-			buttonClicked.dispatch((target as SimpleButton).label);
+		protected function onButtonClicked(label:String):void {
+			buttonClicked.dispatch(label);
 		}
 	
 	}

@@ -2,7 +2,9 @@ package org.robotcomps.core.display
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.Sprite;
 	
+	import org.robotcomps.Display;
 	import org.robotcomps.RobotComps;
 	
 	import starling.display.Image;
@@ -22,20 +24,30 @@ package org.robotcomps.core.display
 			return bitmapData;
 		}
 		
-		public function getImage(texture:Object):IImage {
-			return new NativeImage(texture as BitmapData, "auto", true);
+		public function releaseTexture(bitmapData:BitmapData):void {
+			
 		}
 		
-		public function updateImage(image:IImage, bitmapData:BitmapData):void {
+		public function getImage(bitmapData:BitmapData):IImage {
+			return new NativeImage(bitmapData, "auto", true);
+		}
+		
+		public function setTexture(image:IImage, bitmapData:BitmapData):void {
 			(image as NativeImage).bitmapData = bitmapData;
-			
-			
-			
 		}
 		
-		public function updateTexture(texture:Object, bitmapData:BitmapData):void {
-			var bitmapData2:BitmapData = texture as BitmapData;
-			bitmapData2.draw(bitmapData);
+		public function updateTexture(target:BitmapData, source:BitmapData):void {
+			var s:Sprite = new Sprite();
+			s.graphics.beginBitmapFill(source);
+			s.graphics.drawRect(0, 0, target.width, target.height);
+			source = Display.cache(s);
+			
+			target.fillRect(target.rect, 0x0);
+			target.draw(source);
+		}
+		
+		public function swapTextures(target:IImage, source:IImage):void {
+			(target as NativeImage).bitmapData = (source as NativeImage).bitmapData;
 		}
 	}
 }

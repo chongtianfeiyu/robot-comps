@@ -11,10 +11,10 @@ package org.robotcomps.dialogs
 		
 		public function DialogBackground() {
 			
-			outer = Display.getImageByType(Display.BG_LIGHT);
+			outer = Display.getImageByType(Display.DIVIDER);
 			display._addChild(outer);
 			
-			inner = Display.getImageByType(Display.BG_DARK);
+			inner = Display.getImageByType(Display.BG);
 			display._addChild(inner);
 		}
 		

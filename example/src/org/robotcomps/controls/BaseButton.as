@@ -57,7 +57,7 @@ package org.robotcomps.controls
 			container = Display.getContainer();
 			display._addChild(container);
 			
-			bg = Display.getImageByType(Display.BG_DARK);
+			bg = Display.getImageByType(Display.BG);
 			container._addChild(bg);
 				
 			bgDown = Display.getImageByType(Display.ACCENT);
@@ -88,7 +88,7 @@ package org.robotcomps.controls
 			tween.proxy.alpha = (value)? 1 : 0;
 		}
 		
-		protected function onMouseDown():void {
+		protected function onMouseDown(target:Object):void {
 			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp, false, 0, true);
 			mouseDown.dispatch(this);
 			
@@ -104,7 +104,7 @@ package org.robotcomps.controls
 			tween.proxy.alpha = 0;
 		}
 		
-		protected function onMouseClicked():void {
+		protected function onMouseClicked(target:Object):void {
 			mouseClicked.dispatch(this);
 		}
 		

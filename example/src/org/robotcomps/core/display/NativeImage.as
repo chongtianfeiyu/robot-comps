@@ -39,20 +39,23 @@ package org.robotcomps.core.display
 		 * MOUSE HANDLERS
 		 **/
 		public function get mouseDown():Signal { return mouseSignals.mouseDown; }
+		public function get mouseUp():Signal { return mouseSignals.mouseUp; }
+		public function get mouseClicked():Signal { return mouseSignals.mouseClicked; }
+		public function get mouseDragged():Signal { return mouseSignals.mouseDragged; }
+		
 		protected function onMouseDown(event:MouseEvent):void {
 			RobotComps.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp, false, 0, true);
-			mouseSignals.mouseDown.dispatch();
+			mouseSignals.mouseDown.dispatch(this);
 		}
 		
-		public function get mouseUp():Signal { return mouseSignals.mouseUp; }
+		
 		protected function onMouseUp(event:MouseEvent):void {
 			RobotComps.stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			mouseSignals.mouseUp.dispatch();
+			mouseSignals.mouseUp.dispatch(this);
 		}
 		
-		public function get mouseClicked():Signal { return mouseSignals.mouseClicked; }
 		protected function onClick(event:MouseEvent):void {
-			mouseSignals.mouseClicked.dispatch();
+			mouseSignals.mouseClicked.dispatch(this);
 		}
 		
 		

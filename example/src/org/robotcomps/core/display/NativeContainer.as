@@ -14,6 +14,7 @@ package org.robotcomps.core.display
 	public class NativeContainer extends Sprite implements IContainer {
 		
 		protected var mouseSignals:MouseSignals;
+		private var isMouseDown:Boolean;
 		
 		public function NativeContainer() {
 			init();
@@ -22,28 +23,39 @@ package org.robotcomps.core.display
 		protected function init():void {
 			mouseSignals = new MouseSignals();
 			
+			addEventListener(MouseEvent.MOUSE_MOVE, onMouseMoved, false, 0, true);
 			addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, false, 0, true);
 			addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
+		}
+		
+		protected function onMouseMoved(event:MouseEvent):void {
+			if(isMouseDown){
+				mouseSignals.mouseDragged.dispatch(this);
+			}
 		}
 		
 		/**
 		 * MOUSE HANDLERS
 		 **/
 		public function get mouseDown():Signal { return mouseSignals.mouseDown; }
-		protected function onMouseDown(event:MouseEvent):void {
-			RobotComps.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp, false, 0, true);
-			mouseSignals.mouseDown.dispatch();
-		}
-		
 		public function get mouseUp():Signal { return mouseSignals.mouseUp; }
-		protected function onMouseUp(event:MouseEvent):void {
-			RobotComps.stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			mouseSignals.mouseUp.dispatch();
+		public function get mouseClicked():Signal { return mouseSignals.mouseClicked; }
+		public function get mouseDragged():Signal { return mouseSignals.mouseDragged; }
+		
+		protected function onMouseDown(event:MouseEvent):void {
+			isMouseDown = true;
+			RobotComps.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp, false, 0, true);
+			mouseSignals.mouseDown.dispatch(this);
 		}
 		
-		public function get mouseClicked():Signal { return mouseSignals.mouseClicked; }
+		protected function onMouseUp(event:MouseEvent):void {
+			isMouseDown = false;
+			RobotComps.stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			mouseSignals.mouseUp.dispatch(this);
+		}
+		
 		protected function onClick(event:MouseEvent):void {
-			mouseSignals.mouseClicked.dispatch();
+			mouseSignals.mouseClicked.dispatch(this);
 		}
 		
 		

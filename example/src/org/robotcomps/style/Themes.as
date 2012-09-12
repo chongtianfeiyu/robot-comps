@@ -25,8 +25,6 @@ package org.robotcomps.style
 			addTheme(WHITE_BLUE, new ColorTheme(0x33b5e5, 0x222222, 0xcbcbcb, 0xf2f2f2));
 			addTheme(WHITE_GREEN, new ColorTheme(0x10a263, 0x222222, 0xcbcbcb, 0xf2f2f2));
 			addTheme(WHITE_RED, new ColorTheme(0xb61212, 0x222222, 0xcbcbcb, 0xf2f2f2));
-
-			trace(getAllThemes().length);
 		}
 		
 		public static function getTheme(type:String):ColorTheme {

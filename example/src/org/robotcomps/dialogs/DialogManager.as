@@ -4,6 +4,7 @@ package org.robotcomps.dialogs
 	import flash.display.Stage;
 	import flash.events.Event;
 	
+	import org.robotcomps.Device;
 	import org.robotcomps.Display;
 	import org.robotcomps.RobotComps;
 	import org.robotcomps.core.display.IContainer;
@@ -25,23 +26,23 @@ package org.robotcomps.dialogs
 			viewWidth = stage.stageWidth;
 			viewHeight = stage.stageHeight;
 			
-			stage.addEventListener(Event.RESIZE, onStageResized, false, 0, true);
+			RobotComps.stageResized.add(onStageResized);
+			DialogManager.stage = stage;
 			
-			underlay = Display.getImageByType(Display.BG_DARK);
+			underlay = Display.getImageByType(Display.BG);
 			underlay.mouseClicked.add(onUnderlayClicked);
 			underlay.alpha = underlayAlpha;
 		}
 		
-		protected static function onUnderlayClicked():void {
+		protected static function onUnderlayClicked(target:*):void {
 			if(!lockModal){
 				removeDialogs();
 			}
 		}
 		
-		protected static function onStageResized(event:Event):void {
-			viewWidth = stage.stageWidth;
-			viewHeight = stage.stageHeight;
-			
+		protected static function onStageResized(width:int, height:int):void {
+			viewWidth = width;
+			viewHeight = height;
 			setSize(viewWidth, viewHeight);
 		}
 		
@@ -99,7 +100,6 @@ package org.robotcomps.dialogs
 			
 			underlay.width = width;
 			underlay.height = height;
-			
 			if(topDialog){
 				var orgWidth:int = width;
 				if(topDialog.width > viewWidth || topDialog.height > viewHeight){
@@ -114,20 +114,20 @@ package org.robotcomps.dialogs
 			topDialog.x = underlay.width - topDialog.width >> 1;
 			topDialog.y = underlay.height - topDialog.height >> 1;
 		}
-		/*
+		
 		public static function alert(title:String, message:String):TitleDialog {
 		
-			var dialog:TitleDialog = new TitleDialog(DeviceUtils.dialogWidth, DeviceUtils.dialogHeight, title, message);
+			var dialog:TitleDialog = new TitleDialog(Device.dialogWidth, Device.dialogHeight, title, message);
 			dialog.setButtons(["Ok"]);
-			dialog.addEventListener(ButtonEvent.CLICKED, DialogManager.alertClicked, false, 0, true);
+			dialog.buttonClicked.add(alertClicked);
 			DialogManager.showDialog(dialog);
 			return dialog;
 		
 		}
 		
-		public static function alertClicked(event:ButtonEvent):void {
+		public static function alertClicked(label:String):void {
 			removeDialogs();
 		}
-		*/
+		
 	}
 }

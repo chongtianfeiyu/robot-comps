@@ -1,14 +1,11 @@
 package org.robotcomps.controls
 {
 	
-	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	
 	import org.robotcomps.Display;
-	import org.robotcomps.RobotComps;
 	import org.robotcomps.core.display.IImage;
 	import org.robotcomps.core.view.SizableView;
-	import org.robotcomps.style.data.ColorTheme;
 	
 	public class BorderBox extends SizableView
 	{
@@ -27,7 +24,7 @@ package org.robotcomps.controls
 			rB = Display.getImageByType(type);
 			tB = Display.getImageByType(type);
 			bB = Display.getImageByType(type);
-		
+			
 			display._addChild(lB);
 			display._addChild(rB);
 			display._addChild(tB);
@@ -36,21 +33,14 @@ package org.robotcomps.controls
 			this.borderSize = borderSize;
 		}
 		
-		public function setImageType(type:String):void {
-			//var image:IImage = Display.getImageByType(type);
-			//Display.updateImage(
-		}
-		
-		public function get bitmapData():BitmapData { return _borderData; }
-		public function set bitmapData(value:BitmapData):void {
-			_borderData = value;
-			if(_borderData){
-				Display.updateImage(lB, _borderData);
-				Display.updateImage(rB, _borderData);
-				Display.updateImage(tB, _borderData);
-				Display.updateImage(bB, _borderData);
-				updateLayout();
-			}
+		public function set imageType(value:String):void {
+			var image:IImage = Display.getImageByType(value);
+			if(!image){ return; }
+			
+			Display.swapTextures(lB, image);
+			Display.swapTextures(rB, image);
+			Display.swapTextures(tB, image);
+			Display.swapTextures(bB, image);
 		}
 		
 		public function show(left:Boolean = true, right:Boolean = true, top:Boolean = true, bottom:Boolean = true):void {

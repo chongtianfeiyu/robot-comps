@@ -9,13 +9,14 @@ package org.robotcomps.core.utils
 		public var mouseDown:Signal;
 		public var mouseUp:Signal;
 		public var mouseClicked:Signal;
+		public var mouseDragged:Signal;
 		
 		public function MouseSignals(){
 			
-			mouseDown = new Signal();
-			mouseUp = new Signal();
-			mouseClicked = new Signal();
-			
+			mouseDown = new Signal(Object);
+			mouseUp = new Signal(Object);
+			mouseClicked = new Signal(Object);
+			mouseDragged = new Signal(Object);
 			
 		}
 	}

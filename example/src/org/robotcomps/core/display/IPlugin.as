@@ -4,15 +4,20 @@ package org.robotcomps.core.display
 
 	public interface IPlugin
 	{
+		
 		function getContainer():IContainer;
 		
-		function getImage(texture:Object):IImage;
+		function getImage(bitmapData:BitmapData):IImage;
 		
 		function createTexture(bitmapData:BitmapData):Object;
 		
-		function updateImage(image:IImage, bitmapData:BitmapData):void;
+		function releaseTexture(bitmapData:BitmapData):void;
 		
-		function updateTexture(texture:Object, bitmapData:BitmapData):void;
+		function setTexture(image:IImage, bitmapData:BitmapData):void;
+		
+		function updateTexture(target:BitmapData, source:BitmapData):void;
+		
+		function swapTextures(target:IImage, source:IImage):void; 
 		
 	}
 }

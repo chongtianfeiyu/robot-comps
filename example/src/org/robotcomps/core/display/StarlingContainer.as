@@ -16,11 +16,14 @@ package org.robotcomps.core.display
 	public class StarlingContainer extends Sprite implements IContainer
 	{
 		protected var mouseSignals:MouseSignals;
+		protected var _mouseX:Number;
+		protected var _mouseY:Number;
 		
 		public function StarlingContainer() {
 			mouseSignals = new MouseSignals();
 			addEventListener(TouchEvent.TOUCH, onTouch);
 		}
+		
 		
 		/**
 		 * MOUSE HANDLERS
@@ -28,6 +31,10 @@ package org.robotcomps.core.display
 		public function get mouseDown():Signal { return mouseSignals.mouseDown; }
 		public function get mouseUp():Signal { return mouseSignals.mouseUp; }
 		public function get mouseClicked():Signal { return mouseSignals.mouseClicked; }
+		public function get mouseDragged():Signal { return mouseSignals.mouseDragged; }
+		
+		public function get mouseY():Number{ return _mouseY; }
+		public function get mouseX():Number { return _mouseX; }
 		
 		protected function onTouch(event:TouchEvent):void {
 			var touch:Touch = event.getTouch(this);
@@ -35,14 +42,21 @@ package org.robotcomps.core.display
 				switch (touch.phase) {
 					
 					case TouchPhase.BEGAN:                                   
-						mouseSignals.mouseDown.dispatch();
+						mouseSignals.mouseDown.dispatch(this);
+						break;
+					     
+					case TouchPhase.MOVED:
+						var location:Point = touch.getLocation(this);
+						_mouseX = location.x;
+						_mouseY = location.y;
+						mouseSignals.mouseDragged.dispatch(this);
 						break;
 					
 					case TouchPhase.ENDED:               
-						mouseSignals.mouseUp.dispatch();
+						mouseSignals.mouseUp.dispatch(this);
 						var stage:Stage = RobotComps.stage;
 						if(hitTest(globalToLocal(new Point(stage.mouseX, stage.mouseY)), true)){
-							mouseClicked.dispatch();
+							mouseClicked.dispatch(this);
 						}
 						break;
 				}

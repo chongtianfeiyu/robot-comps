@@ -19,13 +19,17 @@ package org.robotcomps.core.display
 			
 		function get alpha():Number
 		function set alpha(value:Number):void
+			
+		function get mouseX():Number;
+		function get mouseY():Number;
 		
 		function set visible(value:Boolean):void;
 		
 		function get mouseDown():Signal
 		function get mouseClicked():Signal
 		function get mouseUp():Signal
-
+		function get mouseDragged():Signal
+			
 		//Manage children:
 		function _addChild(child:*):void
 		function _removeChild(child:*):void

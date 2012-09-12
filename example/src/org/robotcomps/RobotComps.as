@@ -1,7 +1,9 @@
 package org.robotcomps
 {
 	import flash.display.Stage;
+	import flash.events.Event;
 	
+	import org.osflash.signals.Signal;
 	import org.robotcomps.core.Bitmaps;
 	import org.robotcomps.dialogs.DialogManager;
 	import org.robotcomps.style.Themes;
@@ -14,6 +16,9 @@ package org.robotcomps
 		public static var fontSize:int;
 		public static var theme:ColorTheme;
 		public static var hitSize:int = 50;
+		
+		public static var stageResized:Signal;
+		public static var themeChanged:Signal;
 		
 		/**
 		 * Initialize RobotComps and make it ready for use. This should be done after you have initialized your Stage3D rendering engine.
@@ -29,14 +34,23 @@ package org.robotcomps
 			RobotComps.renderMode = renderMode;
 			RobotComps.fontSize = fontSize;
 			RobotComps.stage = stage;
+			stage.addEventListener(Event.RESIZE, onStageResized, false, 0, true);
+			
+			stageResized = new Signal(int, int);
+			themeChanged = new Signal(ColorTheme);
 			
 			Device.init(stage);
 			Bitmaps.init();
 			Display.init();
 			Themes.init();
-			setTheme((theme)? theme : Themes.getTheme(Themes.WHITE_BLUE));
+			
+			setTheme((theme)? theme : Themes.getTheme(Themes.BLUE));
 			DialogManager.init(root, stage);
 			
+		}
+		
+		protected static function onStageResized(event:Event):void {
+			stageResized.dispatch(stage.stageWidth, stage.stageHeight);
 		}
 		
 		/**
@@ -46,8 +60,9 @@ package org.robotcomps
 		 */
 		public static function setTheme(value:ColorTheme):void {
 			theme = value;
-			Display.updateColorTheme(value);
+			Display.setColorTheme(value);
 			TextFields.setColor(value.text, value.accent);
+			themeChanged.dispatch(value);
 		}
 		
 	}

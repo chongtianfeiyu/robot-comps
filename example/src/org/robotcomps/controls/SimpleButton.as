@@ -1,13 +1,7 @@
 package org.robotcomps.controls
 {
-	import com.gskinner.motion.GTween;
-	
-	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.display.DisplayObject;
-	import flash.events.MouseEvent;
 	import flash.text.TextField;
-	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
 	
 	import org.robotcomps.Display;
@@ -38,14 +32,11 @@ package org.robotcomps.controls
 			
 			super.createChildren();
 			
-			labelText = TextFields.getRegular(RobotComps.fontSize * .75, RobotComps.theme.text, "left");
+			labelText = TextFields.getRegular(_label, RobotComps.fontSize * .75, RobotComps.theme.text);
 			labelText.multiline = false;
 			labelText.wordWrap = false;
-			labelText.text = _label;
 			
-			labelImage = Display.getImage();
-			TextFields.register(labelText, labelImage);
-			
+			labelImage = TextFields.register(labelText);
 			updateLabelText();
 			
 			iconImage = Display.getImage(_icon);
@@ -59,7 +50,7 @@ package org.robotcomps.controls
 				if(!container._contains(labelImage)){
 					container._addChild(labelImage);
 				}
-				TextFields.updateImage(labelImage, labelText);
+				TextFields.update(labelText, false);
 			} 
 			else if(container._contains(labelImage)) {
 				container._removeChild(labelImage);
@@ -79,7 +70,9 @@ package org.robotcomps.controls
 			labelText.setTextFormat(tf);
 			labelText.defaultTextFormat = tf;
 			labelText.opaqueBackground 0xFFFFFFF;
+			
 			updateLabelText();
+			updateLayout();
 		}
 		
 		public function set bold(value:Boolean):void {
@@ -87,7 +80,9 @@ package org.robotcomps.controls
 			tf.bold = value;
 			labelText.setTextFormat(tf);
 			labelText.defaultTextFormat = tf;
+			
 			updateLabelText();
+			updateLayout();
 		}
 		
 		public function set fontSize(value:Number):void {
@@ -95,7 +90,9 @@ package org.robotcomps.controls
 			tf.size = value;
 			labelText.setTextFormat(tf);
 			labelText.defaultTextFormat = tf;
+			
 			updateLabelText();
+			updateLayout();
 		}
 		
 		override public function updateLayout():void {
@@ -119,9 +116,8 @@ package org.robotcomps.controls
 				iconImage.y = viewHeight - iconImage.height >> 1;
 			}
 			labelText.height = viewHeight - labelText.y - padding;
+			Display.match(labelImage, labelText);
 			
-			//Update Label Text
-			TextFields.updateImage(labelImage, labelText);
 		}
 	}
 }
